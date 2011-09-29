@@ -12,7 +12,22 @@ namespace CppCheckAddIn
     private Solution mSolution;
     private List<Project> mProjects;
     
+    /// <summary> VC++ projects list </summary>
     public List<Project> Projects { get { return mProjects; } }
+
+    /// <summary> Solution to parse. </summary>
+    public Solution Solution
+      {
+      get
+        { 
+        return mSolution; 
+        }
+      set
+        {
+        Reset();
+        mSolution = value;
+        }
+      }
 
     /// <summary> Constructor implementation. </summary>
     /// <param name="iSolution"> Solution to parse. </param>
@@ -25,8 +40,19 @@ namespace CppCheckAddIn
     /// <summary> Actual parsing function. </summary>
     public void ParseForVCProjects()
       {
+      Reset();
+
+      if (Solution == null)
+        return;
+
       foreach (Project project in mSolution.Projects)
         ParseProject(project);
+      }
+
+    /// <summary> Default values. </summary>
+    public void Reset()
+      {
+      Projects.Clear();
       }
 
     private void ParseProject(Project iProject)
