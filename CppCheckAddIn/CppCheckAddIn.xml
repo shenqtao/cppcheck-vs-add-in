@@ -66,5 +66,14 @@
         <member name="M:CppCheckAddIn.SolutionParser.ParseForVCProjects">
             <summary> Actual parsing function. </summary>
         </member>
+        <member name="M:CppCheckAddIn.SolutionParser.Reset">
+            <summary> Default values. </summary>
+        </member>
+        <member name="P:CppCheckAddIn.SolutionParser.Projects">
+            <summary> VC++ projects list </summary>
+        </member>
+        <member name="P:CppCheckAddIn.SolutionParser.Solution">
+            <summary> Solution to parse. </summary>
+        </member>
     </members>
 </doc>
