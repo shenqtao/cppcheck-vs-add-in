@@ -19,6 +19,49 @@ namespace CppCheckAddIn
       CreateErrorListProvider();
       }
 
+    public void AddWarning(string iDocument, int iLine, string iMessage)
+      {
+      AddTask(iDocument, iLine, iMessage, TaskPriority.Normal);
+      }
+
+    public void AddError(string iDocument, int iLine, string iMessage)
+      {
+      AddTask(iDocument, iLine, iMessage, TaskPriority.High);
+      }
+
+    public void AddMessage(string iDocument, int iLine, string iMessage)
+      {
+      AddTask(iDocument, iLine, iMessage, TaskPriority.Low);
+      }
+
+    public void Clear()
+      {
+      mErrorListProvider.Tasks.Clear();      
+      }
+   
+    private void NavigateTo(object iSender, EventArgs iArgs)
+      {
+      Task task = (Task)iSender;
+      if (task == null)
+        return;
+
+      Window openedFile = mDTE2.ItemOperations.OpenFile(task.Document, EnvDTE.Constants.vsViewKindCode);
+      TextSelection textSelection = (TextSelection)mDTE2.ActiveDocument.Selection;
+      textSelection.GotoLine(task.Line+1, false);
+      }
+
+    private void AddTask(string iDocument, int iLine, string iMessage, TaskPriority iPriority)
+      {
+      Task task = new Task();
+      task.Document = iDocument;
+      task.Line     = iLine;
+      task.Text     = iMessage;
+      task.Priority = iPriority;
+      task.Navigate += new EventHandler(this.NavigateTo);
+
+      mErrorListProvider.Tasks.Add(task);
+      }
+
     public TaskProvider.TaskCollection Tasks 
       {
       get 
