@@ -25,7 +25,7 @@ namespace CppCheckAddIn
       mButtons = new List<CommandBarButton>();
       mPopups = new List<CommandBarPopup>();
 
-      mCommandCaptions = new string[] { "Check Solution", "Check Current Project", "Check Current File", "Suspend", "Stop"};
+      mCommandCaptions = new string[] { "Check Solution", "Check Current Project", "Check Current File", "Suspend", "Stop", "CppCheck it", "CppCheck it Item"};
       }
 
     public string[] CommandNames 
@@ -45,7 +45,7 @@ namespace CppCheckAddIn
       {
       Commands comands = mApplication.Commands;
 
-      // Setup tool submenu
+      #region Tools submenu
       CommandBars commandBars = (CommandBars)mApplication.CommandBars;
       CommandBar toolCommandBar = commandBars["Tools"];
 
@@ -62,10 +62,28 @@ namespace CppCheckAddIn
       CommandBarButton btnCheckFile = CreateButton(cmdCheckFile, cppCheckCommandBar, mCommandCaptions[2]);
 
       Command cmdSuspendResume = CreateCommand(mCommandCaptions[3]);
-      CommandBarButton btnSuspendResume = CreateButton(cmdSuspendResume, cppCheckCommandBar, mCommandCaptions[3]);
+      CommandBarButton btnSuspendResume = CreateButton(cmdSuspendResume, cppCheckCommandBar, mCommandCaptions[3], true);
 
       Command cmdStop = CreateCommand(mCommandCaptions[4]);
       CommandBarButton btnStop = CreateButton(cmdStop, cppCheckCommandBar, mCommandCaptions[4]);
+      #endregion
+
+      #region Tab context menu
+      CommandBar tabCommandBar = commandBars["Easy MDI Document Window"];
+
+      Command cmdTabCheckIt = CreateCommand(mCommandCaptions[5]);
+      CommandBarButton btnTabCheckIt = CreateButton(cmdTabCheckIt, tabCommandBar, mCommandCaptions[5], true);
+
+      CommandBar codeWindowCommandBar = commandBars["Code Window"];
+      CommandBarButton btnCodeWindowCheckIt = CreateButton(cmdTabCheckIt, codeWindowCommandBar, mCommandCaptions[5], true);
+      #endregion
+
+      #region Solution explorer context menus
+      CommandBar itemCommandBar = commandBars["Item"];
+
+      Command cmdItemCheckIt = CreateCommand(GetCmdName(mCommandCaptions[5]) + "Item", mCommandCaptions[5]);
+      CommandBarButton btnItemCheckIt = CreateButton(cmdItemCheckIt, itemCommandBar, mCommandCaptions[5], true);
+      #endregion
       }
 
     private string GetCmdName(string iCaption)
