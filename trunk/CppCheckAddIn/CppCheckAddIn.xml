@@ -4,6 +4,24 @@
         <name>CppCheckAddIn</name>
     </assembly>
     <members>
+        <member name="T:CppCheckAddIn.SolutionParser">
+            <summary> Class for parsing the solution for VC++ projects. </summary>
+        </member>
+        <member name="M:CppCheckAddIn.SolutionParser.#ctor(EnvDTE80.DTE2)">
+            <summary> Constructor implementation. </summary>
+        </member>
+        <member name="M:CppCheckAddIn.SolutionParser.ParseForVCProjects">
+            <summary> Actual parsing function. </summary>
+        </member>
+        <member name="M:CppCheckAddIn.SolutionParser.Reset">
+            <summary> Default values. </summary>
+        </member>
+        <member name="P:CppCheckAddIn.SolutionParser.Projects">
+            <summary> VC++ projects list </summary>
+        </member>
+        <member name="P:CppCheckAddIn.SolutionParser.Solution">
+            <summary> Solution to parse. </summary>
+        </member>
         <member name="T:CppCheckAddIn.Connect">
             <summary>The object for implementing an Add-in.</summary>
             <seealso class='IDTExtensibility2' />
@@ -55,25 +73,6 @@
             <param term='varOut'>Parameters passed from the command handler to the caller.</param>
             <param term='handled'>Informs the caller if the command was handled or not.</param>
             <seealso class='Exec' />
-        </member>
-        <member name="T:CppCheckAddIn.SolutionParser">
-            <summary> Class for parsing the solution for VC++ projects. </summary>
-        </member>
-        <member name="M:CppCheckAddIn.SolutionParser.#ctor(EnvDTE.Solution)">
-            <summary> Constructor implementation. </summary>
-            <param name="iSolution"> Solution to parse. </param>
-        </member>
-        <member name="M:CppCheckAddIn.SolutionParser.ParseForVCProjects">
-            <summary> Actual parsing function. </summary>
-        </member>
-        <member name="M:CppCheckAddIn.SolutionParser.Reset">
-            <summary> Default values. </summary>
-        </member>
-        <member name="P:CppCheckAddIn.SolutionParser.Projects">
-            <summary> VC++ projects list </summary>
-        </member>
-        <member name="P:CppCheckAddIn.SolutionParser.Solution">
-            <summary> Solution to parse. </summary>
         </member>
     </members>
 </doc>

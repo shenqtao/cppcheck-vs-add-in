@@ -6,7 +6,7 @@ using EnvDTE80;
 
 namespace CppCheckAddIn
   {
-  class DTE2HandlerBase
+  public class DTE2HandlerBase
     {
     protected DTE2 mApplication;
 
