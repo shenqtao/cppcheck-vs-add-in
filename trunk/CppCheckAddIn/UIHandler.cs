@@ -8,19 +8,17 @@ using Microsoft.VisualStudio.CommandBars;
 
 namespace CppCheckAddIn
   {
-  class UIHandler
+  class UIHandler : DTE2HandlerBase
     {
     private string[] mCommandCaptions;
 
-    private DTE2 mApplication;
     private AddIn mAddIn;
 
     private List<CommandBarButton> mButtons;
     private List<CommandBarPopup> mPopups;
 
-    public UIHandler(DTE2 iApplication, AddIn iAddIn)
+    public UIHandler(DTE2 iApplication, AddIn iAddIn) : base(iApplication)
       {
-      mApplication = iApplication;
       mAddIn       = iAddIn;
       mButtons = new List<CommandBarButton>();
       mPopups = new List<CommandBarPopup>();
@@ -66,6 +64,15 @@ namespace CppCheckAddIn
 
       Command cmdStop = CreateCommand(mCommandCaptions[4]);
       CommandBarButton btnStop = CreateButton(cmdStop, cppCheckCommandBar, mCommandCaptions[4]);
+      #region Savins for destroying
+      mPopups.Add(cppCheckMenu);
+      mButtons.Add(btnCheckSolution);
+      mButtons.Add(btnCheckProject);
+      mButtons.Add(btnCheckFile);
+      mButtons.Add(btnSuspendResume);
+      mButtons.Add(btnStop);
+      #endregion
+
       #endregion
 
       #region Tab context menu
@@ -76,6 +83,9 @@ namespace CppCheckAddIn
 
       CommandBar codeWindowCommandBar = commandBars["Code Window"];
       CommandBarButton btnCodeWindowCheckIt = CreateButton(cmdTabCheckIt, codeWindowCommandBar, mCommandCaptions[5], true);
+      #region Savins for destroying
+      mButtons.Add(btnCodeWindowCheckIt);
+      #endregion
       #endregion
 
       #region Solution explorer context menus
@@ -83,6 +93,11 @@ namespace CppCheckAddIn
 
       Command cmdItemCheckIt = CreateCommand(GetCmdName(mCommandCaptions[5]) + "Item", mCommandCaptions[5]);
       CommandBarButton btnItemCheckIt = CreateButton(cmdItemCheckIt, itemCommandBar, mCommandCaptions[5], true);
+      
+      #region Saving for destroying
+      mButtons.Add(btnItemCheckIt);
+      #endregion
+
       #endregion
       }
 
@@ -97,7 +112,7 @@ namespace CppCheckAddIn
     public void ClearUI()
       {
       foreach (CommandBarButton button in mButtons)
-        if (button != null) 
+        if (button != null)
           button.Delete(true);
 
       foreach (CommandBarPopup popup in mPopups)
