@@ -7,12 +7,11 @@ using EnvDTE80;
 
 namespace CppCheckAddIn
   {
-  public class OutputHandler
+  public class OutputHandler : DTE2HandlerBase
     {
-    private DTE2 mApplication;
     private OutputWindowPane mOutputWindowPane;
 
-    public OutputHandler(DTE2 iApplication)
+    public OutputHandler(DTE2 iApplication) : base(iApplication)
       {
       mApplication = iApplication;
       CreateOutputWindowPane();

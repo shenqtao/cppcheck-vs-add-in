@@ -8,14 +8,12 @@ using Microsoft.VisualStudio.Shell;
 
 namespace CppCheckAddIn
   {
-  class ErrorHandler
+  class ErrorHandler : DTE2HandlerBase
     {
     private ErrorListProvider mErrorListProvider;
-    private DTE2 mDTE2;
 
-    public ErrorHandler(DTE2 iDTE2)
+    public ErrorHandler(DTE2 iDTE2) : base(iDTE2)
       {
-      mDTE2 = iDTE2;
       CreateErrorListProvider();
       }
 
@@ -45,8 +43,8 @@ namespace CppCheckAddIn
       if (task == null)
         return;
 
-      Window openedFile = mDTE2.ItemOperations.OpenFile(task.Document, EnvDTE.Constants.vsViewKindCode);
-      TextSelection textSelection = (TextSelection)mDTE2.ActiveDocument.Selection;
+      Window openedFile = mApplication.ItemOperations.OpenFile(task.Document, EnvDTE.Constants.vsViewKindCode);
+      TextSelection textSelection = (TextSelection)mApplication.ActiveDocument.Selection;
       textSelection.GotoLine(task.Line+1, false);
       }
 
@@ -72,7 +70,7 @@ namespace CppCheckAddIn
 
     private void CreateErrorListProvider()
       {
-      IServiceProvider serviceProvider = new ServiceProvider((Microsoft.VisualStudio.OLE.Interop.IServiceProvider)mDTE2);
+      IServiceProvider serviceProvider = new ServiceProvider((Microsoft.VisualStudio.OLE.Interop.IServiceProvider)mApplication);
       mErrorListProvider = new ErrorListProvider(serviceProvider);
       mErrorListProvider.ProviderName = "CppCheck Errors";
       mErrorListProvider.ProviderGuid = new Guid("5A10E43F-8D1D-4026-98C0-E6B502058901");

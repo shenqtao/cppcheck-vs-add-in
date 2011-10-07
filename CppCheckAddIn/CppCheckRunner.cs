@@ -12,27 +12,39 @@ namespace CppCheckAddIn
   class CppCheckRunner
     {
     private List<string> mCheckItems;
+    private Process mCppCheckProcess;
 
     public event OutputLineHandler OutputLineReceived;
     public event OutputLineHandler ErrorLineReceived; 
 
     public void Start()
       {
-      Process cppCheckProcess;
-      cppCheckProcess = new Process();
-      cppCheckProcess.StartInfo.FileName = "CppCheck";
-      cppCheckProcess.StartInfo.Arguments = ComposeArgumentString();
+      mCppCheckProcess = new Process();
+      mCppCheckProcess.StartInfo.FileName = "CppCheck";
+      mCppCheckProcess.StartInfo.Arguments = ComposeArgumentString();
+      
+      mCppCheckProcess.StartInfo.UseShellExecute = false;
+      mCppCheckProcess.StartInfo.RedirectStandardOutput = true;
+      mCppCheckProcess.StartInfo.RedirectStandardError = true;
+      
+      mCppCheckProcess.OutputDataReceived += new DataReceivedEventHandler(this.InternalOutputHandler);
+      mCppCheckProcess.ErrorDataReceived += new DataReceivedEventHandler(this.InternalErrorHandler);
+      mCppCheckProcess.Start();
+      
+      mCppCheckProcess.BeginOutputReadLine();
+      mCppCheckProcess.BeginErrorReadLine();
+      }
 
-      cppCheckProcess.StartInfo.UseShellExecute = false;
-      cppCheckProcess.StartInfo.RedirectStandardOutput = true;
-      cppCheckProcess.StartInfo.RedirectStandardError = true;
+    public void Stop()
+      {
+      if (!mCppCheckProcess.HasExited)
+        mCppCheckProcess.Kill();
+      }
 
-      cppCheckProcess.OutputDataReceived += new DataReceivedEventHandler(this.InternalOutputHandler);
-      cppCheckProcess.ErrorDataReceived += new DataReceivedEventHandler(this.InternalErrorHandler);
-      cppCheckProcess.Start();
-
-      cppCheckProcess.BeginOutputReadLine();
-      cppCheckProcess.BeginErrorReadLine();
+    // TODO
+    private void Suspend()
+      {
+      if (!mCppCheckProcess.HasExited) ;
       }
 
     private bool ValidateOutputLine(string iLine)
