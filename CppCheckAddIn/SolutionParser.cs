@@ -13,6 +13,7 @@ namespace CppCheckAddIn
     {
     private Solution mSolution;
     private List<Project> mProjects;
+    private List<string> mFileNames;
     
     public enum ESelectionKind
       {
@@ -22,6 +23,7 @@ namespace CppCheckAddIn
 
     /// <summary> VC++ projects list </summary>
     public List<Project> Projects { get { return mProjects; } }
+    public List<string> FileNames { get { return mFileNames; } }
 
     public string PathArgument { get; set; }
 
@@ -57,6 +59,21 @@ namespace CppCheckAddIn
 
       foreach (Project project in mSolution.Projects)
         ParseProject(project);
+      }
+
+    public List<string> GetSolutionSourceFiles()
+      {
+      ParseForVCProjects();
+
+      foreach (Project project in Projects)
+        {
+        ProjectItem projectItem = (ProjectItem)project.Object;
+
+        for (short i = 0; i < projectItem.FileCount; ++i )
+            mFileNames.Add(projectItem.get_FileNames(i));
+        }
+
+      return FileNames;
       }
 
     /// <summary> Default values. </summary>
