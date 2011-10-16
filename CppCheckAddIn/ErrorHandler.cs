@@ -17,19 +17,19 @@ namespace CppCheckAddIn
       CreateErrorListProvider();
       }
 
-    public void AddWarning(string iDocument, int iLine, string iMessage)
+    public void PostWarning(string iDocument, int iLine, string iMessage)
       {
-      AddTask(iDocument, iLine, iMessage, TaskPriority.Normal);
+      PostTask(iDocument, iLine, iMessage, TaskPriority.Normal);
       }
 
-    public void AddError(string iDocument, int iLine, string iMessage)
+    public void PostError(string iDocument, int iLine, string iMessage)
       {
-      AddTask(iDocument, iLine, iMessage, TaskPriority.High);
+      PostTask(iDocument, iLine, iMessage, TaskPriority.High);
       }
 
-    public void AddMessage(string iDocument, int iLine, string iMessage)
+    public void PostMessage(string iDocument, int iLine, string iMessage)
       {
-      AddTask(iDocument, iLine, iMessage, TaskPriority.Low);
+      PostTask(iDocument, iLine, iMessage, TaskPriority.Low);
       }
 
     public void Clear()
@@ -48,7 +48,7 @@ namespace CppCheckAddIn
       textSelection.GotoLine(task.Line+1, false);
       }
 
-    private void AddTask(string iDocument, int iLine, string iMessage, TaskPriority iPriority)
+    private void PostTask(string iDocument, int iLine, string iMessage, TaskPriority iPriority)
       {
       Task task = new Task();
       task.Document = iDocument;
